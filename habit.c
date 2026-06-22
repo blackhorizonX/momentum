@@ -37,14 +37,17 @@ int init_habit(Habit *h) {
     if (fopen(path, "r") != NULL) { // file already exists
         printf("File \"%s\" already exists.\n", path);
         return 1;
-    } else if (fopen(path, "r") == NULL) {
+
+    } else if (fopen(path, "r") == NULL) { //create file
         FILE *fptr = fopen(path, "w");
 
         if (fptr == NULL) { // file creation failed
             printf("File creation for \"%s\" failed\n", path);
             return 1;
         } else { // file creation success
-        printf("file for habit \"%s\" created at \"%s\"\n", h->name, path);
+            fputs("Date,Streak\n", fptr); // input template data 
+            printf("File for habit \"%s\" created at \"%s\"\n", h->name, path);
+            fclose(fptr);
         }
     }
 

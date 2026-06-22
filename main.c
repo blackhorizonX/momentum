@@ -6,7 +6,6 @@
 int main() {
     bool flow = true;
     int input;
-    Habit *habit = malloc(sizeof(Habit));
 
     // initial input block
     while (flow) {
@@ -26,18 +25,21 @@ int main() {
     // test valid input against cases
     switch (input) {
         case 1: // create new Habit
-            if (init_habit(habit) == 0){
-                printf("Sucess\n");
-            } else if (init_habit(habit) == 1){
-                printf("Failure\n");
-            };
+            Habit *habit = malloc(sizeof(Habit));
 
+            if (init_habit(habit) == 0){
+                printf("Habit successfully created!\n");
+                free(habit);
+
+            } else if (init_habit(habit) == 1){
+                printf("Failure during habit creation.\n");
+                free(habit);
+            };
         case 2:
             return 0; //exit
         default:
             printf("Unable to associate input with action.");
     }
 
-    free(habit);
     return 0;
 };
