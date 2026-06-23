@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 // Habit data type
 typedef struct Habit {
@@ -45,7 +46,7 @@ int init_habit(Habit *h) {
             printf("File creation for \"%s\" failed\n", path);
             return 1;
         } else { // file creation success
-            fputs("Date,Streak\n", fptr); // input template data 
+            fputs("Date,Streak\n", fptr); // insert template data 
             printf("File for habit \"%s\" created at \"%s\"\n", h->name, path);
             fclose(fptr);
         }
@@ -75,3 +76,25 @@ int get_input() {
         return x;
     }
 };
+
+// load habit
+
+// increment
+int increment(char *path) {
+    FILE *fptr = fopen(path, "a"); // open file
+
+    // navigate to end of file
+
+    // get date string
+    char date[14];
+    // raw time
+    time_t raw_time = time(NULL);
+    struct tm *local = localtime(&raw_time);
+    // save to date string
+    snprintf(date, sizeof(date),
+            "%04d/%02d/%02d\n",
+            local->tm_year + 1900,
+            local->tm_mon + 1,
+            local->tm_mday);
+    printf("%s", date);
+}
