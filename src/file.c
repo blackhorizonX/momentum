@@ -38,13 +38,12 @@ char **find_files(char *path) {
 
             continue;
         } else if (result == 0) { // match
-            char *file = malloc(sizeof(de->d_name));
+            char *file = malloc(strlen(de->d_name) + 1);
             strcpy(file, de->d_name);
             files[i] = file; // add to array
             i++; // inc for next position
 
             printf("Matching file name: %s\n", de->d_name);
-            free(file);
         }
     }
 
@@ -128,7 +127,8 @@ int get_current(char *file){
     return curr;
 }
 
-// increment
+// increment streak value in given file
+// format: 2026/06/26,1
 int increment(char *path) {
     int curr;
     curr = get_current(path); // get current streak
