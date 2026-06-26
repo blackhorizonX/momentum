@@ -30,7 +30,7 @@ int init_habit(Habit *h) {
     strcat(file, ext);
     printf("file name: %s\n", file);
 
-    char path[11] = "data/\0";
+    char path[11] = "../data/\0";
     strcat(path, file);
     printf("Full path: %s\n", path);
 
@@ -55,14 +55,6 @@ int init_habit(Habit *h) {
     return 0;
 };
 
-
-// displayed at execution
-void greeting() {
-    printf("Hello! Choose an option.\n"
-        "1) Create new habit\n"
-        "2) Exit\n");
-};
-
 int get_input() {
     //receive
     int x;
@@ -79,22 +71,3 @@ int get_input() {
 
 // load habit
 
-// increment
-int increment(char *path) {
-    FILE *fptr = fopen(path, "a"); // open file
-
-    // navigate to end of file
-
-    // get date string
-    char date[14];
-    // raw time
-    time_t raw_time = time(NULL);
-    struct tm *local = localtime(&raw_time);
-    // save to date string
-    snprintf(date, sizeof(date),
-            "%04d/%02d/%02d\n",
-            local->tm_year + 1900,
-            local->tm_mon + 1,
-            local->tm_mday);
-    printf("%s", date);
-}

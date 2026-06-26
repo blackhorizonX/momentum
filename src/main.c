@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "habit.c"
 
 int main() {
@@ -9,7 +10,9 @@ int main() {
 
     // initial input block
     while (flow) {
-        greeting();
+        printf("Hello! Choose an option.\n"
+        "1) Create new habit\n"
+        "2) Exit\n");
         
         input = get_input();
         if (input > 0){
