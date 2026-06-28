@@ -55,6 +55,10 @@ int init_habit(Habit *h) {
     return 0;
 };
 
+// deletes a habit file from the data/ directory.
+int del_habit(char *path) {
+
+}
 int get_input() {
     //receive
     int x;
