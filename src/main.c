@@ -53,7 +53,7 @@ int main() {
 
                 // ensure it was a valid file
                 char **arr;
-                arr = find_files("../data/"); // get array of files
+                arr = find_files("data/"); // get array of files
                     
                 // search for file match
                 bool found = false;
@@ -71,7 +71,7 @@ int main() {
                 if (found) {
                     printf("File for deletion was found.\n"); 
                     char path[100];
-                    snprintf(path, sizeof(path), "../data/%s.csv", input);
+                    snprintf(path, sizeof(path), "data/%s.csv", input);
                     if (remove(path) == 0){// deletion successful
                         printf("Habit data at \"%s\" was successfully deleted.\n", path);
                     }; 
@@ -84,7 +84,7 @@ int main() {
             }
             case 3: {// view all
                 char **arr;
-                arr = find_files("../data/");
+                arr = find_files("data/");
 
                 if (arr[0] == NULL){
                     printf("No data exists.\n");

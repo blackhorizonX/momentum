@@ -10,7 +10,7 @@
 int create_habit(char *name) {
     // create file path
     char file[24] = "";
-    char path[24] = "../data/\0";
+    char path[24] = "data/\0";
     
     strcat(file, name);
     strcat(file, ".csv");
@@ -129,7 +129,7 @@ int get_best(char *file){
     return best;
 }
 
-int get_current(char *file){
+int get_current(char *file) {
     FILE *fptr = fopen(file, "r");
     if (fptr == NULL) {
         printf("File failed to open\n");
