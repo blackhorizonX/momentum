@@ -3,6 +3,8 @@
 #include <string.h>
 #include <dirent.h>
 #include <regex.h>
+#include <time.h>
+#include "operations.h"
 
 // create a new Habit
 int create_habit(char *name) {

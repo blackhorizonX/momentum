@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "habit.c"
-#include "file.c"
+#include "operations.h"
 
 void flush();
 
