@@ -199,3 +199,39 @@ int increment(char *path) {
 
     return 0;
 }
+
+// display stats from active habits
+int dashboard() {
+    // for reading dir
+    struct dirent *de;
+
+    // open directory
+    DIR *dir = opendir("data/");
+    if (dir == NULL){
+        printf("Failed to open directory.\n");
+        return 1;
+    } 
+
+    // read files in directory
+    while ((de = readdir(dir)) != NULL)  {
+        // skip over first two iterations
+        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) {
+            continue;
+        }
+
+        // create path string
+        char path[24] = "data/\0";
+        strcat(path, de->d_name);
+        printf("Full path: %s\n", path);
+        
+        int curr = get_current(path);
+        int best = get_best(path);
+
+        printf("%s\n", de->d_name);
+        printf("Current: %d\n", curr);
+        printf("Best: %d\n", best);
+    }
+
+    closedir(dir);
+    return 0;
+}

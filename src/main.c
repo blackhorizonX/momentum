@@ -100,7 +100,13 @@ int main() {
                 free(arr);
                 break;
             }
-            case 4: { 
+            case 4: {
+                if (dashboard() != 0) {
+                    printf("Trouble printing dashboard");
+                };
+                break;
+            }
+            case 5: { 
                 printf("Exiting...\n");
                 running = false; //exit
                 break;
