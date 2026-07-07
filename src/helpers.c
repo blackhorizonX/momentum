@@ -35,7 +35,7 @@ char* get_string(void) {
         return NULL;
     }
 
-    buffer[strcspn(buffer, '\n')] == '\0'; // replace \n with \0
+    buffer[strcspn(buffer, "\n")] = '\0'; // replace \n with \0
     
     char* str = malloc(strlen(buffer) + 1);
     if (str == NULL){
