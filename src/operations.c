@@ -58,27 +58,3 @@ char **find_files(char *path) {
 
     return files;
 }
-
-// increment streak value in given file
-// format: 2026/06/26,1
-int increment() {
-
-    // get reference date
-
-    // get today string
-    char date[20];
-    // raw time
-    time_t raw_time = time(NULL);
-    struct tm *local = localtime(&raw_time);
-    // save to date string
-    snprintf(date, sizeof(date),
-            "%04d/%02d/%02d",
-            local->tm_year + 1900,
-            local->tm_mon + 1,
-            local->tm_mday);
-
-    // difference in days
-
-    return 0;
-}
-

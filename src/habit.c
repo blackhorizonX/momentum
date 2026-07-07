@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -27,7 +28,7 @@ Habit* init_habit(char name[]) {
     strcpy(h->h_name, name);
     strcpy(h->init_date, today);
     h->reset = false;
-    h->best = 0;
+    h->h_best = 0;
 
     return h;
 }
@@ -35,7 +36,7 @@ Habit* init_habit(char name[]) {
 // save habit
 int save_habit(Habit* h) {
     // create file path
-    char file[STR_LENGTH];
+    char path[STR_LENGTH];
 
     snprintf(path, sizeof(path), "data/%s.txt", h->h_name);
 
@@ -60,12 +61,12 @@ int save_habit(Habit* h) {
     // add template data
     fprintf(fptr, "h_name:%s\n", h->h_name);
     fprintf(fptr, "init_date:%s\n", h->init_date);
-    fprintf(fptr, "reset:%d\n", reset);
+    fprintf(fptr, "reset:%d\n", h->reset);
     fprintf(fptr, "reset_date:\n");
     fprintf(fptr, "best:%d\n", h->h_best);
+    fclose(fptr);
 
     printf("Habit data created at \"%s\"\n", path);
-    fclose(fptr);
 
     return 0;
 };

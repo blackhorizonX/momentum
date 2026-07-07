@@ -3,10 +3,9 @@
 #include <string.h>
 #include <time.h>
 #include "operations.h"
+#include "helpers.h"
 #include "menu.h"
 #include "ui.h"
-
-void flush();
 
 int main() {
     bool running = true;
@@ -24,7 +23,10 @@ int main() {
         // test valid input against cases
         switch (option) {
             case 1: {
-                if (create_habit() !=0) {
+
+                char* name = get_string();
+
+                if (init_habit(name) !=0) {
                     printf("Failed to create habit");
                 };
 
