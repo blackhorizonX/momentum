@@ -16,10 +16,11 @@ int main() {
         print_main_menu();
 
         int option;
-        if (get_option(option) != 0){
+        if (get_option(&option) != 0){
             printf("Invalid input.");
         };
         
+        printf("option: %d", option);
         // test valid input against cases
         switch (option) {
             case 1: {

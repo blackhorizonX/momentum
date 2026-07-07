@@ -8,7 +8,7 @@
 #include "config.h"
 
 // get user's desired option
-int get_option(int x) {
+int get_option(int* x) {
    int opt = fgetc(stdin);
    flush();
 
@@ -17,8 +17,7 @@ int get_option(int x) {
     }
 
     int option = opt - '0';
-    x = option;
-    printf("input: %d\n", x);
+    *x = option;
 
     return 0;
 }
