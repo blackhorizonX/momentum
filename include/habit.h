@@ -7,7 +7,7 @@ typedef struct Habit {
     char init_date[STR_LENGTH]; // date user started tracking the habit
     bool reset; // if user has reset streak, this is `true`
     char reset_date[STR_LENGTH]; // if reset == true, this is new reference date
-    int best; // best streak user has had for this habit
+    int h_best; // best streak user has had for this habit
 } Habit;
 
 Habit* init_habit(char name[]);

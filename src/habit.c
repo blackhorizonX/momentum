@@ -9,7 +9,7 @@ typedef struct Habit {
     char init_date[STR_LENGTH]; // date user started tracking the habit
     bool reset; // if user has reset streak, this is `true`
     char reset_date[STR_LENGTH]; // if reset == true, this is new reference date
-    int best; // best streak user has had for this habit
+    int h_best; // best streak user has had for this habit
 } Habit;
 
 // initialize new habit
@@ -57,11 +57,13 @@ int save_habit(Habit* h) {
         return 1;
         }  
 
+    // add template data
     fprintf(fptr, "h_name:%s\n", h->h_name);
     fprintf(fptr, "init_date:%s\n", h->init_date);
-    fprintf(fptr, "reset:false\n");
+    fprintf(fptr, "reset:%d\n", reset);
     fprintf(fptr, "reset_date:\n");
-    fprintf(fptr, "best:0\n", h->h_name);
+    fprintf(fptr, "best:%d\n", h->h_best);
+
     printf("Habit data created at \"%s\"\n", path);
     fclose(fptr);
 
