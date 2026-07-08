@@ -15,7 +15,7 @@ void print_header(const char *title) {
 }
 
 void print_main_menu(void) {
-    print_header("HABIT TRACKER");
+    print_header("Options:");
     printf("| 1) Create new habit            |\n");
     printf("| 2) Delete habit                |\n");
     printf("| 3) View habits                 |\n");
