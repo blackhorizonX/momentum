@@ -24,7 +24,7 @@ int main() {
         switch (option) {
             case 1: {
 
-                printf("Habit name: ");
+                printf("Habit name: \n");
                 char* name = get_string();
 
                 Habit* h = init_habit(name);
@@ -42,7 +42,13 @@ int main() {
             }
 
             case 2: {
-                // delete_habit();
+                printf("Delete which habit?: \n");
+                char* filename = get_string();
+
+                if (delete_habit (filename) != 0){
+                    printf("Failed to delete habit.\n");
+                }
+
                 break;
             }
 
