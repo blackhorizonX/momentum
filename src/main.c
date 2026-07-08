@@ -11,6 +11,9 @@ int main() {
 
     // initial input block
     while (running) {
+        nap(2);
+        clear_console();
+
         print_header("Welcome to Lifestyle Counter!");
         print_main_menu();
 
