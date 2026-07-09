@@ -104,27 +104,16 @@ int delete_habit(char* filename) {
     return 0;
 }
 
-int get_current() {
-    struct tm time0 = {0};
-    time0.tm_year = 2026 - 1900;
-    time0.tm_mon = 0;
-    time0.tm_mday = 1;
-
-    struct tm time1 = {0};
-    time1.tm_year = 2026 - 1900;
-    time1.tm_mon = 1;
-    time1.tm_mday = 1;
-
-    // convert using mktime?
-    time_t t0 = mktime(&time0);
-    time_t t1 = mktime(&time1);
+int get_current(char path[]) {
+    struct tm* time0 = get_ref_date(path); // get reference date from file
+    time_t t0 = mktime(time0); // convert into seconds since Epoch 
+    time_t t1 = time(NULL); // time now (equals today's date)
 
     // date diff
     double diff = difftime(t1, t0);
+    int days = (int)(diff / 86400);
 
-    printf("difference: %f", (diff / 86400)); 
-
-    return 0;
+    return days;
 }
 
 struct tm* get_ref_date(char path[]) {
@@ -164,7 +153,7 @@ struct tm* get_ref_date(char path[]) {
 
             break;
         }
-    };
+    }
     
     fclose(fptr);
     return date;
