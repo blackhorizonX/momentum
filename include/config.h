@@ -2,5 +2,6 @@
 #define MACRO_H
 
 #define STR_LENGTH 24
+#define DATA_PATH "data/"
 
 #endif

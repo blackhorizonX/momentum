@@ -2,38 +2,50 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "operations.h"
+#include "helpers.h"
 #include "menu.h"
 #include "ui.h"
-
-void flush();
 
 int main() {
     bool running = true;
 
     // initial input block
     while (running) {
-        print_header("Welcome to Lifestyle Counter!");
+        clear_console();
+
+        print_header("Momentum: A Lifestyle Counter");
         print_main_menu();
 
-        int* option;
-        if (get_option(option) != 0){
+        int option;
+        if (get_option(&option) != 0){
             printf("Invalid input.");
         };
         
         // test valid input against cases
         switch (option) {
             case 1: {
-                if (create_habit() !=0) {
-                    printf("Failed to create habit");
+                printf("Habit name: \n");
+                char* name = get_string();
+                Habit* h = init_habit(name);
+                if (h == NULL){
+                    printf("Habit creation failed.");
+                }
+                // save habit
+                if (save_habit(h) != 0){
+                    printf("Failed to save habit.");
                 };
 
-                // save habit
                 break;
             }
 
             case 2: {
-                // delete_habit();
+                printf("Delete which habit?: \n");
+                char* filename = get_string();
+
+                if (delete_habit (filename) != 0){
+                    printf("Failed to delete habit.\n");
+                }
+
                 break;
             }
 
