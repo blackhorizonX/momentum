@@ -130,7 +130,7 @@ struct tm* get_ref_date(char path[]) {
                     // fill date members from reset_date string
                     sscanf(buffer, "reset_date:%d/%d/%d", &year, &month, &day);
                     date->tm_year = year - 1900;
-                    date->tm_mon = month;
+                    date->tm_mon = month - 1;
                     date->tm_mday = day;
                     
                     break;
@@ -143,7 +143,7 @@ struct tm* get_ref_date(char path[]) {
             // fill date members from reset_date string
             sscanf(buffer, "init_date:%d/%d/%d", &year, &month, &day);
             date->tm_year = year - 1900;
-            date->tm_mon = month;
+            date->tm_mon = month - 1;
             date->tm_mday = day;
 
             break;
@@ -157,18 +157,38 @@ struct tm* get_ref_date(char path[]) {
 // this function will return the current streak for a given habit
 int get_current(char path[]) {
     struct tm* time0 = get_ref_date(path); // get reference date from file
-    if (time0 == NULL){
-        printf("time0 is in fact NULL.");
+    if (time0 == NULL) {
+        printf("time0 is NULL.");
         return -1;
     }
     time_t t0 = mktime(time0); // convert into seconds since Epoch 
     time_t t1 = time(NULL); // time now (equals today's date)
 
     double diff = difftime(t1, t0); // date difference in seconds
-    printf("(FROM GET_CURRENT)diff t1-t0 in seconds: %f\n", diff);
 
     int current = (int)(diff / 86400); // convert to days
-    printf("(FROM GET_CURRENT) Current is: %d\n", current);
 
+    free(time0);
     return current;
+}
+
+int get_best(char path[]) {
+    int best = -1; // -1 is sentinel value
+    char buffer[100];
+
+    FILE *fptr = fopen(path, "r");
+    if (fptr == NULL) {
+        printf("File couldn't be opened.");
+
+        return -1;
+    }
+ 
+    // main file reading loop
+    while (fgets(buffer, sizeof(buffer), fptr) != NULL) {
+        if (strstr(buffer, "best:") != NULL) { // best line has been reached
+            sscanf(buffer, "best:%d", &best); // insert best
+        }
+    }
+    
+    return best;
 }
