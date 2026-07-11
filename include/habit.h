@@ -11,7 +11,7 @@ typedef struct Habit {
     int h_best; // best streak user has had for this habit
 } Habit;
 
-Habit* init_habit(char name[]); // takes name as input and inits a Habit struct with default values
+Habit* init_habit(void); // takes name as input and inits a Habit struct with default values
 int save_habit(Habit* h); // save habit into data/ directory. uses habit name as file name
 int delete_habit(void); // deletes a given habit from the directory DATA_PATH (defined in config.h)
 struct tm* get_ref_date(char path[]); // used in get_current() as the reference date to be subtracted from current date.

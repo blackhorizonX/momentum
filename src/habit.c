@@ -15,7 +15,10 @@ typedef struct Habit {
 } Habit;
 
 // takes name as input and inits a Habit struct with default values
-Habit* init_habit(char name[]) {
+Habit* init_habit(void) {
+    printf("Habit name: ");
+    char* name = get_string();
+
     Habit* h = malloc(sizeof(Habit));
 
     if (h == NULL){
@@ -32,6 +35,7 @@ Habit* init_habit(char name[]) {
     h->reset = false;
     h->h_best = 0;
 
+    free(name);
     return h;
 }
 
@@ -40,10 +44,9 @@ int save_habit(Habit* h) {
     char path[STR_LENGTH]; // create file path
     // THIS COULD BE FIXED TO UTILIZE DATA_PATH FROM CONFIG.H
     snprintf(path, sizeof(path), "data/%s.txt", h->h_name);
-    printf("Full path: %s\n", path);
 
-    // check if file already exists
-    FILE *check = fopen(path, "r");
+    
+    FILE *check = fopen(path, "r"); // check if file already exists
     if (check != NULL) {
         fclose(check);
         printf("File \"%s\" already exists.\n", path);
@@ -66,7 +69,7 @@ int save_habit(Habit* h) {
     fprintf(fptr, "best:%d\n", h->h_best);
     fclose(fptr);
 
-    printf("Habit data created at \"%s\"\n", path);
+    printf("Habit created at \"%s\"\n", path);
 
     return 0;
 };

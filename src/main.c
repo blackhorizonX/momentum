@@ -18,7 +18,7 @@ int main() {
         print_main_menu();
 
         int option;
-        if (get_option(&option) != 0){
+        if (get_option(&option) != 0) {
             printf("Invalid input.");
             continue;
         };
@@ -26,14 +26,12 @@ int main() {
         // test valid input against cases
         switch (option) {
             case 1: {
-                printf("Habit name: ");
-                char* name = get_string();
-                Habit* h = init_habit(name);
-                if (h == NULL){
+                Habit* h = init_habit();
+                if (h == NULL) {
                     printf("Habit creation failed.");
                 }
                 // save habit
-                if (save_habit(h) != 0){
+                if (save_habit(h) != 0) {
                     printf("Failed to save habit.");
                 };
 
@@ -58,7 +56,6 @@ int main() {
 
             case 4: { 
                 printf("Exiting...\n");
-                running = false; //exit
                 return 0;
             }
 
@@ -71,7 +68,7 @@ int main() {
         fflush(stdout);
 
         int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF){
+        while ((ch = getchar()) != '\n' && ch != EOF) {
             //discard rest of line
         }
     }
