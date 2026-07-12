@@ -17,5 +17,6 @@ int delete_habit(void); // deletes a given habit from the directory DATA_PATH (d
 struct tm* get_ref_date(char path[]); // used in get_current() as the reference date to be subtracted from current date.
 int get_current(struct tm *time0); // returns the current streak for a given habit
 int get_best(char path[]); // returns the best streak for a given habit
+int update_best(char path[], int new_best); // updates best record in file
 
 #endif

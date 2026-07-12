@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <dirent.h>
+#include <assert.h>
 #include "helpers.h"
 #include "habit.h"
 #include "config.h"
@@ -26,23 +27,21 @@ int get_option(int* x) {
 
 // display stats from active habits
 int dashboard() {
-    // for reading dir
-    struct dirent *de;
+    struct dirent *de; // for reading dir
 
-    // open directory
-    DIR *dir = opendir(DATA_PATH);
+    DIR *dir = opendir(DATA_PATH); // open directory
     if (dir == NULL){
         printf("Failed to open %s\n", DATA_PATH);
         return -1;
     } 
-
-    // read files in directory
-    while ((de = readdir(dir)) != NULL) {
-        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) {
+    
+    while ((de = readdir(dir)) != NULL) { // read files in directory
+        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) { // skip over directory entries
             continue;
         }
-        char file[STR_LENGTH];
-        snprintf(file, sizeof(file), "data/%s", de->d_name); // make full path
+
+        char file[STR_LENGTH]; // make full path
+        snprintf(file, sizeof(file), "data/%s", de->d_name); 
 
         int best = get_best(file); // get best
 
@@ -51,16 +50,22 @@ int dashboard() {
         int current = get_current(time0); // get current streak by subtracting ref date with current date
         free(time0);
 
+        // Best should be updated if necessary
 
         printf("Habit: " ANSI_CYAN "%s" COLOR_RESET "\n", de->d_name); // print habit name
 
         if (current < best) {
             printf("Current Streak: " ANSI_RED "%d" COLOR_RESET "\n", current);
+            printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
         } else if (current >= best) {
-            printf("Current Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", current);
-        }
+            update_best(file, current); // update best in file
+            best = get_best(file); // get best again from file
+             
+            assert(best == current); // ensure best is now equal to current
 
-        printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
+            printf("Current Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", current);
+            printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
+        }
 
         printf("\n"); // separate each habit by \n
     }

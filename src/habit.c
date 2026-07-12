@@ -193,3 +193,36 @@ int get_best(char path[]) {
     fclose(fptr);
     return best;
 }
+
+int update_best(char path[], int new_best) {
+    char buffer[100];
+    FILE *input = fopen(path, "r"); // open existing file
+    FILE *output = fopen(TEMP_FILE, "w"); // create temp file
+    char *target = "best:";
+    
+    while (fgets(buffer, sizeof(buffer), input) != NULL) {
+        // line for best: found
+        if (strstr(buffer, target) != NULL) {
+            fprintf(output, "best:%d\n", new_best); // insert updated data
+
+        } else {
+            fputs(buffer, output); // copy unchanged data
+        }
+    }
+
+    // close file pointers
+    fclose(input);
+    fclose(output);
+
+    if (remove(path) != 0) { // remove old file
+        printf("Error erasing old file \"%s\".\n", path);
+        return 1;
+    }
+
+    if (rename(TEMP_FILE, path) != 0) { // rename new file
+        printf("Error renaming temp file \"%s\"\n", TEMP_FILE);
+        return 1;
+    }
+
+    return 0;
+}
