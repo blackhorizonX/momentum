@@ -41,22 +41,18 @@ int dashboard() {
         char file[STR_LENGTH]; // make full path
         snprintf(file, sizeof(file), "data/%s", de->d_name); 
 
-        int best = get_best(file); // get best
-
-        // get current
-        struct tm *time0 = get_ref_date(file); // get reference date from habit within path
-        int current = get_current(time0); // get current streak by subtracting ref date with current date
-
+        // get current and best streaks
+        struct tm *time0 = get_ref_date(file);
+        int current = get_current(time0);
+        int best = get_best(file); 
 
         // check if current streak is better than recorded best
-        if (current < best) {
+        if (current >= best) {
+            update_best(file, current);
+            best = get_best(file);
             print_dashboard(de->d_name, current, best);
         }
-        else if (current >= best) {
-            update_best(file, current); // update best in file
-            best = get_best(file); // refresh best var
-            print_dashboard(de->d_name, current, best);
-        }
+        else { print_dashboard(de->d_name, current, best); }
     }
 
     closedir(dir);
