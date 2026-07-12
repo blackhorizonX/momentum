@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "ui.h"
+#include "config.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -38,4 +39,13 @@ void nap(int seconds) {
     #else
         sleep(seconds);
     #endif
+}
+
+int print_dashboard(char habit[], int current, int best){
+    printf("Habit: " ANSI_CYAN "%s" COLOR_RESET "\n", habit);
+    printf("Current Streak: " ANSI_RED "%d" COLOR_RESET "\n", current);
+    printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
+    printf("\n");
+
+    return 0;
 }

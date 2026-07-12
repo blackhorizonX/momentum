@@ -169,6 +169,7 @@ int get_current(struct tm *time0) {
     double diff = difftime(t1, t0); // date difference in seconds
     int curr = (int)(diff / 86400); // convert to days
 
+    free(time0);
     return curr;
 }
 

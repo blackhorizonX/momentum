@@ -23,20 +23,18 @@ int get_option(int* x) {
     return 0;
 }
 
-
-
 // display stats from active habits
 int dashboard() {
     struct dirent *de; // for reading dir
-
     DIR *dir = opendir(DATA_PATH); // open directory
-    if (dir == NULL){
+
+    if (dir == NULL){ // check if directory failed to open
         printf("Failed to open %s\n", DATA_PATH);
-        return -1;
+        return 1;
     } 
     
-    while ((de = readdir(dir)) != NULL) { // read files in directory
-        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) { // skip over directory entries
+    while ((de = readdir(dir)) != NULL) { // iterate over files in dir
+        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) { // skip over sys directory entries
             continue;
         }
 
@@ -48,26 +46,17 @@ int dashboard() {
         // get current
         struct tm *time0 = get_ref_date(file); // get reference date from habit within path
         int current = get_current(time0); // get current streak by subtracting ref date with current date
-        free(time0);
 
-        // Best should be updated if necessary
 
-        printf("Habit: " ANSI_CYAN "%s" COLOR_RESET "\n", de->d_name); // print habit name
-
+        // check if current streak is better than recorded best
         if (current < best) {
-            printf("Current Streak: " ANSI_RED "%d" COLOR_RESET "\n", current);
-            printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
-        } else if (current >= best) {
-            update_best(file, current); // update best in file
-            best = get_best(file); // get best again from file
-             
-            assert(best == current); // ensure best is now equal to current
-
-            printf("Current Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", current);
-            printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
+            print_dashboard(de->d_name, current, best);
         }
-
-        printf("\n"); // separate each habit by \n
+        else if (current >= best) {
+            update_best(file, current); // update best in file
+            best = get_best(file); // refresh best var
+            print_dashboard(de->d_name, current, best);
+        }
     }
 
     closedir(dir);
