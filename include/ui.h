@@ -5,5 +5,6 @@ void print_header(const char *title);
 void print_main_menu(void);
 void clear_console(void);
 void nap(int seconds);
+int print_dashboard(char habit[], int current, int best);
 
 #endif

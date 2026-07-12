@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "ui.h"
+#include "config.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -16,9 +17,9 @@ void print_header(const char *title) {
 
 void print_main_menu(void) {
     print_header("Options:");
-    printf("| 1) Create new habit            |\n");
-    printf("| 2) Delete habit                |\n");
-    printf("| 3) Dashboard                   |\n");
+    printf("| 1) Dashboard                   |\n");
+    printf("| 2) New Habit                   |\n");
+    printf("| 3) Delete Habit                |\n");
     printf("| 4) Exit                        |\n");
     printf("+--------------------------------+\n");
     printf("Choose an option: ");
@@ -38,4 +39,13 @@ void nap(int seconds) {
     #else
         sleep(seconds);
     #endif
+}
+
+int print_dashboard(char habit[], int current, int best){
+    printf("Habit: " ANSI_CYAN "%s" COLOR_RESET "\n", habit);
+    printf("Current Streak: " ANSI_RED "%d" COLOR_RESET "\n", current);
+    printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
+    printf("\n");
+
+    return 0;
 }
