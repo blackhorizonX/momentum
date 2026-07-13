@@ -7,6 +7,7 @@
 #include "helpers.h"
 #include "habit.h"
 #include "config.h"
+#include "ui.h"
 
 // get user's desired option
 int get_option(int* x) {
