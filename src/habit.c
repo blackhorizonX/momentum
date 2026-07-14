@@ -3,6 +3,7 @@
 #include <string.h>
 #include <dirent.h>
 #include <time.h>
+#include "ui.h"
 #include "helpers.h"
 #include "config.h"
 
@@ -229,15 +230,24 @@ int update_best(char path[], int new_best) {
 }
 
 
-int reset_streak(char path[]) {
+int reset_streak(void) {
     char buffer[100];
-    FILE *input = fopen(path, "r"); // open existing file
-    FILE *output = fopen(TEMP_FILE, "w"); // create temp file
+    char file[100];
+    char path[100];
     char *target = "reset_date:";
 
+    habit_list(); // show current habits
+
+    printf("Reset which habit?: ");
+    char* file = get_string();
+    snprintf(path, sizeof(path), "data/%s.txt", file); // build path
+    
     // get today's date
     char today[STR_LENGTH];
     get_today(today, sizeof(today));
+
+    FILE *input = fopen(path, "r"); // open existing file
+    FILE *output = fopen(TEMP_FILE, "w"); // create temp file
 
     while (fgets(buffer, sizeof(buffer), input) != NULL) {
         // line for reset_date: found

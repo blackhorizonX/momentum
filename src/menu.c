@@ -26,10 +26,10 @@ int get_option(int* x) {
 
 // dashboard which displays stats from active habits
 int dashboard() {
-    struct dirent *de; // for reading dir
-    DIR *dir = opendir(DATA_PATH); // open directory
+    struct dirent *de;
+    DIR *dir = opendir(DATA_PATH);
 
-    if (dir == NULL){ // check if directory failed to open
+    if (dir == NULL){
         printf("Failed to open %s\n", DATA_PATH);
         return 1;
     } 

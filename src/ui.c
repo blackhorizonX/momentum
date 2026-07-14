@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
 #include "ui.h"
 #include "config.h"
 
@@ -21,9 +22,14 @@ void print_main_menu(void) {
     printf("| 1) Dashboard                   |\n");
     printf("| 2) New Habit                   |\n");
     printf("| 3) Delete Habit                |\n");
-    printf("| 4) Exit                        |\n");
+    printf("| 4) Reset a Streak :(           |\n");
+    printf("| 5) Exit                        |\n");
     printf("+--------------------------------+\n");
     printf("Choose an option: ");
+}
+
+void print_border(void) {
+    printf("+--------------------------------+\n");
 }
 
 void clear_console(void) {
@@ -48,5 +54,28 @@ int print_dashboard(char habit[], int current, int best){
     printf("Best Streak: " ANSI_GREEN "%d" COLOR_RESET "\n", best);
     printf("\n");
 
+    return 0;
+}
+
+void habit_list(void) {
+    struct dirent *de;
+    DIR *dir = opendir(DATA_PATH);
+
+    if (dir == NULL){
+        printf("Failed to open %s\n", DATA_PATH);
+        return 1;
+    } 
+
+    print_header("Saved Habits");
+    while ((de = readdir(dir)) != NULL) { // iterate over files in dir
+        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) { // skip over sys directory entries
+            continue;
+        }
+
+        printf("|•%.*s                       |\n", (int)strlen(de->d_name) - 4, de->d_name);
+    }
+    print_border();
+
+    closedir(dir);
     return 0;
 }

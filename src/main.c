@@ -55,6 +55,10 @@ int main() {
             }
 
             case 4: { 
+                //reset streak
+            }
+
+            case 5: { 
                 printf("Exiting...\n");
                 return 0;
             }
