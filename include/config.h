@@ -1,5 +1,5 @@
-#ifndef MACRO_H
-#define MACRO_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #define STR_LENGTH 100
 
