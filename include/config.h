@@ -2,6 +2,8 @@
 #define MACRO_H
 
 #define STR_LENGTH 24
+#define PATH_LENGTH 100
+#define HABIT_PATH "habit/"
 #define DATA_PATH "data/"
 #define TEMP_FILE "data/temp.txt"
 #define ANSI_RED "\x1b[31m"
