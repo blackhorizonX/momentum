@@ -1,13 +1,5 @@
 #include "common.h"
 
-typedef struct Habit {
-    char h_name[STR_LENGTH]; // name of the habit
-    char init_date[STR_LENGTH]; // date user started tracking the habit
-    bool reset; // if user has reset streak, this is `true`
-    char reset_date[STR_LENGTH]; // if reset == true, this is new reference date
-    int h_best; // best streak user has had for this habit
-} Habit;
-
 // takes name as input and inits a Habit struct with default values
 Habit* init_habit(void) {
     char path[PATH_LENGTH];
@@ -15,7 +7,6 @@ Habit* init_habit(void) {
 
     printf("Habit name?: ");
     char* name = get_string();
-    snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, file); // build path
 
     Habit* h = malloc(sizeof(Habit));
 
@@ -41,7 +32,7 @@ Habit* init_habit(void) {
 int save_habit(Habit* h) {
     char path[PATH_LENGTH]; // create file path
     // THIS COULD BE FIXED TO UTILIZE HABIT_PATH FROM CONFIG.H
-    snprintf(path, sizeof(path), "data/%s.txt", h->h_name);
+    snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, h->h_name);
 
     
     FILE *check = fopen(path, "r"); // check if file already exists

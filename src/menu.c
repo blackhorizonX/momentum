@@ -32,7 +32,7 @@ int dashboard() {
         }
 
         char file[STR_LENGTH]; // make full path
-        snprintf(file, sizeof(file), "data/%s", de->d_name); 
+        snprintf(file, sizeof(file), "%s%s", HABIT_PATH, de->d_name); 
 
         // get current and best streaks
         struct tm *time0 = get_ref_date(file);
