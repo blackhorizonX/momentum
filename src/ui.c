@@ -54,10 +54,10 @@ int print_dashboard(char habit[], int current, int best){
 
 void habit_list(void) {
     struct dirent *de;
-    DIR *dir = opendir(DATA_PATH);
+    DIR *dir = opendir(HABIT_PATH);
 
     if (dir == NULL){
-        printf("Failed to open %s\n", DATA_PATH);
+        printf("Failed to open %s\n", HABIT_PATH);
     } 
 
     print_header("Saved Habits");

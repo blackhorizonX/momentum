@@ -15,6 +15,7 @@ Habit* init_habit(void) {
 
     printf("Habit name?: ");
     char* name = get_string();
+    snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, file); // build path
 
     Habit* h = malloc(sizeof(Habit));
 
@@ -39,7 +40,7 @@ Habit* init_habit(void) {
 // save habit into data/ directory. uses habit name as file name
 int save_habit(Habit* h) {
     char path[STR_LENGTH]; // create file path
-    // THIS COULD BE FIXED TO UTILIZE DATA_PATH FROM CONFIG.H
+    // THIS COULD BE FIXED TO UTILIZE HABIT_PATH FROM CONFIG.H
     snprintf(path, sizeof(path), "data/%s.txt", h->h_name);
 
     
@@ -71,7 +72,7 @@ int save_habit(Habit* h) {
     return 0;
 };
 
-// deletes a given habit from the directory DATA_PATH (defined in config.h)
+// deletes a given habit from the directory HABIT_PATH (defined in config.h)
 int delete_habit(void) {
     char buffer[100];
     char path[100];
@@ -83,10 +84,10 @@ int delete_habit(void) {
     // prompt for which habit to delete
     printf("Delete which habit?: ");
     char* file = get_string();
-    snprintf(path, sizeof(path), "%s%s.txt", DATA_PATH, file); // build path
+    snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, file); // build path
 
     // open directory
-    DIR *dir = opendir(DATA_PATH);
+    DIR *dir = opendir(HABIT_PATH);
     if (dir == NULL){
         printf("Failed to open directory.\n");
         return 1;
@@ -240,7 +241,7 @@ int reset_streak(void) {
 
     printf("Reset which habit?: ");
     char* file = get_string();
-    snprintf(path, sizeof(path), "%s%s.txt", DATA_PATH, file); // build path
+    snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, file); // build path
 
     // get today's date
     char today[STR_LENGTH];
