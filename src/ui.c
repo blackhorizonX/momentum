@@ -66,7 +66,7 @@ void habit_list(void) {
             continue;
         }
 
-        printf("|•%.*s                       |\n", (int)strlen(de->d_name) - 4, de->d_name);
+        printf("|•%.*s\n", (int)strlen(de->d_name) - 4, de->d_name);
     }
     print_border();
 

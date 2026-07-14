@@ -25,6 +25,7 @@ int dashboard() {
         return 1;
     } 
     
+    print_header("Habit Streak Dashboard");
     while ((de = readdir(dir)) != NULL) { // iterate over files in dir
         if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) { // skip over sys directory entries
             continue;
@@ -46,6 +47,7 @@ int dashboard() {
         }
         else { print_dashboard(de->d_name, current, best); }
     }
+    print_border();
 
     closedir(dir);
     return 0;
