@@ -2,7 +2,7 @@
 
 // takes name as input and inits a Habit struct with default values
 Habit* init_habit(void) {
-    char path[PATH_LENGTH];
+    char path[STR_LENGTH];
     habit_list(); // show current habits
 
     printf("Habit name?: ");
@@ -30,7 +30,7 @@ Habit* init_habit(void) {
 
 // save habit into data/ directory. uses habit name as file name
 int save_habit(Habit* h) {
-    char path[PATH_LENGTH]; // create file path
+    char path[STR_LENGTH]; // create file path
     snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, h->h_name);
 
     
@@ -64,8 +64,8 @@ int save_habit(Habit* h) {
 
 // deletes a given habit from the directory HABIT_PATH (defined in config.h)
 int delete_habit(void) {
-    char buffer[BUFFER_LENGTH];
-    char path[PATH_LENGTH];
+    char buffer[STR_LENGTH];
+    char path[STR_LENGTH];
     int i = 0; // for iterating over files
     struct dirent *de; // for reading dir
 
@@ -106,7 +106,7 @@ int delete_habit(void) {
 // used in get_current() as the reference date to be subtracted from current date.
 // !! note that `struct tm* date` will need to be freed after usage. !!
 struct tm* get_ref_date(char path[]) {
-    char buffer[BUFFER_LENGTH];
+    char buffer[STR_LENGTH];
     int year, month, day;
     struct tm *date = calloc(1,sizeof *date);
 
@@ -167,7 +167,7 @@ int get_current(struct tm *time0) {
 
 int get_best(char path[]) {
     int best = -1; // -1 is sentinel value
-    char buffer[BUFFER_LENGTH];
+    char buffer[STR_LENGTH];
 
     FILE *fptr = fopen(path, "r");
     if (fptr == NULL) {
@@ -188,7 +188,7 @@ int get_best(char path[]) {
 }
 
 int update_best(char path[], int new_best) {
-    char buffer[BUFFER_LENGTH];
+    char buffer[STR_LENGTH];
     FILE *input = fopen(path, "r"); // open existing file
     FILE *output = fopen(TEMP_PATH, "w"); // create temp file
     char *target = "best:";
@@ -222,8 +222,8 @@ int update_best(char path[], int new_best) {
 
 
 int reset_streak(void) {
-    char buffer[BUFFER_LENGTH];
-    char path[PATH_LENGTH];
+    char buffer[STR_LENGTH];
+    char path[STR_LENGTH];
     char *date_target = "reset_date:";
     char *reset_target = "reset:";
 

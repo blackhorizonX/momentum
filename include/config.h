@@ -1,9 +1,7 @@
 #ifndef MACRO_H
 #define MACRO_H
 
-#define STR_LENGTH 24
-#define PATH_LENGTH 100
-#define BUFFER_LENGTH 100
+#define STR_LENGTH 100
 
 #define HABIT_PATH "habit/"
 #define DATA_PATH "data/"

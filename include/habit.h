@@ -19,5 +19,6 @@ int get_current(struct tm *time0); // returns the current streak for a given hab
 int get_best(char path[]); // returns the best streak for a given habit
 int update_best(char path[], int new_best); // updates best record in file
 int reset_streak(void); // updates reset_date record in file
+int dashboard();
 
 #endif
