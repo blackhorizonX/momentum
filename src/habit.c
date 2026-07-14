@@ -10,8 +10,11 @@ typedef struct Habit {
 
 // takes name as input and inits a Habit struct with default values
 Habit* init_habit(void) {
-    printf("Habit name: ");
-    char* name = get_string();
+    habit_list(); // show current habits
+
+    printf("Reset which habit?: ");
+    char* file = get_string();
+    snprintf(path, sizeof(path), "%s%s.txt", DATA_PATH, file); // build path
 
     Habit* h = malloc(sizeof(Habit));
 
@@ -70,11 +73,17 @@ int save_habit(Habit* h) {
 
 // deletes a given habit from the directory DATA_PATH (defined in config.h)
 int delete_habit(void) {
+    char buffer[100];
+    char path[100];
     int i = 0; // for iterating over files
     struct dirent *de; // for reading dir
 
+    habit_list(); // show current habits
+
+    // prompt for which habit to delete
     printf("Delete which habit?: ");
-    char* filename = get_string();
+    char* file = get_string();
+    snprintf(path, sizeof(path), "%s%s.txt", DATA_PATH, file); // build path
 
     // open directory
     DIR *dir = opendir(DATA_PATH);
@@ -85,9 +94,7 @@ int delete_habit(void) {
 
     // read files in directory
     while ((de = readdir(dir)) != NULL && i < 10) {
-        if (strstr(de->d_name, filename) != NULL) { // file was found
-            char path[STR_LENGTH]; // create file path
-            snprintf(path, sizeof(path), "data/%s", de->d_name);
+        if (strstr(de->d_name, file) != NULL) { // file was found
             if (remove(path) == 0) { // delete file
                 printf("File \"%s\" successfully erased!\n", path);
             } else {
@@ -101,7 +108,7 @@ int delete_habit(void) {
         }
     }
 
-    free(filename);
+    free(file);
     return 0;
 }
 
@@ -233,7 +240,7 @@ int reset_streak(void) {
 
     printf("Reset which habit?: ");
     char* file = get_string();
-    snprintf(path, sizeof(path), "data/%s.txt", file); // build path
+    snprintf(path, sizeof(path), "%s%s.txt", DATA_PATH, file); // build path
 
     // get today's date
     char today[STR_LENGTH];
@@ -273,5 +280,6 @@ int reset_streak(void) {
 
     printf("Streak for \"%s\" reset to 0. You got this, don't give up! :)\n");
 
+    free(file);
     return 0;
 }
