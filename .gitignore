@@ -1,6 +1,7 @@
-.todo
 data/*
 !data/.gitkeep
 bin/*
 !bin/.gitkeep
 scratch/*
+habit/*
+!habit/.gitkeep

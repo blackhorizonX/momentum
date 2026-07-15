@@ -17,7 +17,7 @@ void print_main_menu(void) {
     printf("| 1) Dashboard                   |\n");
     printf("| 2) New Habit                   |\n");
     printf("| 3) Delete Habit                |\n");
-    printf("| 4) Reset a Streak :(           |\n");
+    printf("| 4) Reset a Streak              |\n");
     printf("| 5) Exit                        |\n");
     printf("+--------------------------------+\n");
     printf("Choose an option: ");
@@ -54,10 +54,10 @@ int print_dashboard(char habit[], int current, int best){
 
 void habit_list(void) {
     struct dirent *de;
-    DIR *dir = opendir(DATA_PATH);
+    DIR *dir = opendir(HABIT_PATH);
 
     if (dir == NULL){
-        printf("Failed to open %s\n", DATA_PATH);
+        printf("Failed to open %s\n", HABIT_PATH);
     } 
 
     print_header("Saved Habits");
@@ -66,7 +66,7 @@ void habit_list(void) {
             continue;
         }
 
-        printf("|•%.*s                       |\n", (int)strlen(de->d_name) - 4, de->d_name);
+        printf("|•%.*s\n", (int)strlen(de->d_name) - 4, de->d_name);
     }
     print_border();
 

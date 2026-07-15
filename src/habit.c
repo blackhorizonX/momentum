@@ -1,16 +1,10 @@
 #include "common.h"
 
-typedef struct Habit {
-    char h_name[STR_LENGTH]; // name of the habit
-    char init_date[STR_LENGTH]; // date user started tracking the habit
-    bool reset; // if user has reset streak, this is `true`
-    char reset_date[STR_LENGTH]; // if reset == true, this is new reference date
-    int h_best; // best streak user has had for this habit
-} Habit;
-
 // takes name as input and inits a Habit struct with default values
 Habit* init_habit(void) {
-    printf("Habit name: ");
+    habit_list(); // show current habits
+
+    printf("Habit name?: ");
     char* name = get_string();
 
     Habit* h = malloc(sizeof(Habit));
@@ -36,8 +30,7 @@ Habit* init_habit(void) {
 // save habit into data/ directory. uses habit name as file name
 int save_habit(Habit* h) {
     char path[STR_LENGTH]; // create file path
-    // THIS COULD BE FIXED TO UTILIZE DATA_PATH FROM CONFIG.H
-    snprintf(path, sizeof(path), "data/%s.txt", h->h_name);
+    snprintf(path, sizeof(path), "%s%.94s.txt", HABIT_PATH, h->h_name);
 
     
     FILE *check = fopen(path, "r"); // check if file already exists
@@ -68,16 +61,21 @@ int save_habit(Habit* h) {
     return 0;
 };
 
-// deletes a given habit from the directory DATA_PATH (defined in config.h)
+// deletes a given habit from the directory HABIT_PATH (defined in config.h)
 int delete_habit(void) {
+    char path[STR_LENGTH];
     int i = 0; // for iterating over files
     struct dirent *de; // for reading dir
 
+    habit_list(); // show current habits
+
+    // prompt for which habit to delete
     printf("Delete which habit?: ");
-    char* filename = get_string();
+    char* file = get_string();
+    snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, file); // build path
 
     // open directory
-    DIR *dir = opendir(DATA_PATH);
+    DIR *dir = opendir(HABIT_PATH);
     if (dir == NULL){
         printf("Failed to open directory.\n");
         return 1;
@@ -85,9 +83,7 @@ int delete_habit(void) {
 
     // read files in directory
     while ((de = readdir(dir)) != NULL && i < 10) {
-        if (strstr(de->d_name, filename) != NULL) { // file was found
-            char path[STR_LENGTH]; // create file path
-            snprintf(path, sizeof(path), "data/%s", de->d_name);
+        if (strstr(de->d_name, file) != NULL) { // file was found
             if (remove(path) == 0) { // delete file
                 printf("File \"%s\" successfully erased!\n", path);
             } else {
@@ -101,14 +97,14 @@ int delete_habit(void) {
         }
     }
 
-    free(filename);
+    free(file);
     return 0;
 }
 
 // used in get_current() as the reference date to be subtracted from current date.
 // !! note that `struct tm* date` will need to be freed after usage. !!
 struct tm* get_ref_date(char path[]) {
-    char buffer[100];
+    char buffer[STR_LENGTH];
     int year, month, day;
     struct tm *date = calloc(1,sizeof *date);
 
@@ -169,7 +165,7 @@ int get_current(struct tm *time0) {
 
 int get_best(char path[]) {
     int best = -1; // -1 is sentinel value
-    char buffer[100];
+    char buffer[STR_LENGTH];
 
     FILE *fptr = fopen(path, "r");
     if (fptr == NULL) {
@@ -190,9 +186,9 @@ int get_best(char path[]) {
 }
 
 int update_best(char path[], int new_best) {
-    char buffer[100];
+    char buffer[STR_LENGTH];
     FILE *input = fopen(path, "r"); // open existing file
-    FILE *output = fopen(TEMP_FILE, "w"); // create temp file
+    FILE *output = fopen(TEMP_PATH, "w"); // create temp file
     char *target = "best:";
     
     while (fgets(buffer, sizeof(buffer), input) != NULL) {
@@ -214,8 +210,8 @@ int update_best(char path[], int new_best) {
         return 1;
     }
 
-    if (rename(TEMP_FILE, path) != 0) { // rename new file
-        printf("Error renaming temp file \"%s\"\n", TEMP_FILE);
+    if (rename(TEMP_PATH, path) != 0) { // rename new file
+        printf("Error renaming temp file \"%s\"\n", TEMP_PATH);
         return 1;
     }
 
@@ -224,8 +220,8 @@ int update_best(char path[], int new_best) {
 
 
 int reset_streak(void) {
-    char buffer[100];
-    char path[100];
+    char buffer[STR_LENGTH];
+    char path[STR_LENGTH];
     char *date_target = "reset_date:";
     char *reset_target = "reset:";
 
@@ -233,14 +229,14 @@ int reset_streak(void) {
 
     printf("Reset which habit?: ");
     char* file = get_string();
-    snprintf(path, sizeof(path), "data/%s.txt", file); // build path
+    snprintf(path, sizeof(path), "%s%s.txt", HABIT_PATH, file); // build path
 
     // get today's date
     char today[STR_LENGTH];
     get_today(today, sizeof(today));
 
     FILE *input = fopen(path, "r"); // open existing file
-    FILE *output = fopen(TEMP_FILE, "w"); // create temp file
+    FILE *output = fopen(TEMP_PATH, "w"); // create temp file
 
     while (fgets(buffer, sizeof(buffer), input) != NULL) {
         // reset: found
@@ -266,12 +262,51 @@ int reset_streak(void) {
         return 1;
     }
 
-    if (rename(TEMP_FILE, path) != 0) { // rename new file
-        printf("Error renaming temp file \"%s\"\n", TEMP_FILE);
+    if (rename(TEMP_PATH, path) != 0) { // rename new file
+        printf("Error renaming temp file \"%s\"\n", TEMP_PATH);
         return 1;
     }
 
-    printf("Streak for \"%s\" reset to 0. You got this, don't give up! :)\n");
+    printf("Streak for \"%s\" reset to 0.\n\nYou got this, don't give up! :)\n", path);
 
+    free(file);
+    return 0;
+}
+
+// dashboard which displays stats from active habits
+int dashboard() {
+    struct dirent *de;
+    DIR *dir = opendir(HABIT_PATH);
+
+    if (dir == NULL){
+        printf("Failed to open %s\n", HABIT_PATH);
+        return 1;
+    } 
+    
+    print_header("Habit Streak Dashboard");
+    while ((de = readdir(dir)) != NULL) { // iterate over files in dir
+        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) { // skip over sys directory entries
+            continue;
+        }
+
+        char file[STR_LENGTH]; // make full path
+        snprintf(file, sizeof(file), "%s%s", HABIT_PATH, de->d_name); 
+
+        // get current and best streaks
+        struct tm *time0 = get_ref_date(file);
+        int current = get_current(time0);
+        int best = get_best(file); 
+
+        // check if current streak is better than recorded best
+        if (current >= best) {
+            update_best(file, current);
+            best = get_best(file);
+            print_dashboard(de->d_name, current, best);
+        }
+        else { print_dashboard(de->d_name, current, best); }
+    }
+    print_border();
+
+    closedir(dir);
     return 0;
 }
