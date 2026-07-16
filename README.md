@@ -22,7 +22,7 @@ From within the directory, you can run the program with:<br>
 `./bin/momentum`
 
 # Usage
-The primary way of interacting with the program is adding habits and displaying a dashboard which shows you how many consecutive days you have kept up with your new habit. 
+The primary way of interacting with the program is adding habits and displaying a dashboard which shows you how many consecutive days you have kept up with your new habit.<br>
 
 # Author
 Primary: [venvio](https://github.com/venvio)<br>
