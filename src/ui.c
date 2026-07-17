@@ -23,6 +23,7 @@ void print_menu_item(const char *item) {
 void print_header(const char *title) {
     print_border(BORDER_LENGTH);
     print_menu_item(title);
+    print_menu_item(title);
     print_border(BORDER_LENGTH);
 }
 

@@ -6,13 +6,18 @@ int main() {
     // initial input block
     while (running) {
         clear_console();
+        const char *version = "Version: " VERSION;
 
-        print_header("Momentum: A Lifestyle Counter");
+        print_border(BORDER_LENGTH);
+        print_menu_item("Momentum: A Lifestyle Streak Counter");
+        print_menu_item(version);
+        print_border(BORDER_LENGTH);
+
         print_main_menu();
 
         int option;
         if (get_option(&option) != 0) {
-            printf("Invalid input.");
+            printf("Invalid input.\n");
             continue;
         };
         
