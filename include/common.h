@@ -14,5 +14,6 @@
 #include "habit.h"
 #include "helpers.h"
 #include "ui.h"
+#include "version.h"
 
 #endif
