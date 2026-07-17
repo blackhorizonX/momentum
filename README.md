@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src='assets/banner.png'>
+    <img src='assets/Shooting_star.gif'>
 </p>
 
 # About
@@ -36,7 +36,7 @@ Contributor(s): [blackhorizonX](https://github.com/blackhorizonX)
 
 # Acknowledgments
 I [streamed](https://www.youtube.com/@venv_io) the development of this on YouTube and I want to thank the viewers who gave me suggestions and insights along the way. They helped me with some tough bugs and I was glad to have their company.<br>
-Special thanks to:<br>
+<br>Special thanks to:<br>
 * [blackhorizonX](https://github.com/blackhorizonX)
 * [klewaur](https://github.com/piadi-su)
 * andrewlewis7610
